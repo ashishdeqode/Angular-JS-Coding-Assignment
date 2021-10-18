@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12 shadow rounded p-5" style="min-height: 100vh;">
     <div class="row mb-5 d-flex justify-content-center">
-      <div class="col-6 ">
+      <div class="col-lg-6 col-sm-12 col-md-12">
         <div class="input-group">
           <input class="form-control" (keyup.enter)="searchRepo()" (search)="clearSearch($event)" [(ngModel)]="searchText"
             type="search" name="" id="" placeholder="Search repo">
@@ -15,7 +15,7 @@
         <a class="text-decoration-none" [href]="repo.html_url" target="_blank">
           <h6 class="text-primary">{{repo.full_name}}</h6>
         </a>
-        <span maxlength="20">{{repo.description}}</span><br>
+        <span>{{repo.description}}</span><br>
         <span *ngIf="repo.topics.length > 0">
           <span *ngFor="let topic of repo.topics" class="badge badge-pill mb-1 bg-warning"
             style="margin-right: 5px;">{{topic}}</span>
@@ -40,7 +40,7 @@
     </div>
     <div *ngIf="!loading && !repoData.length" class="row">
       <div class="col-12 mt-5 d-flex justify-content-center">
-        <i class="fas fa-search fa-5x" style="color: rgb(221, 221, 221);"></i>
+        <i class="fab fa-git-alt fa-5x" style="color: rgb(221, 221, 221);"></i>
       </div>
       <div class="col-12 mt-2 d-flex justify-content-center">
         <h4 style="color: rgb(221, 221, 221);">SEARCH</h4>

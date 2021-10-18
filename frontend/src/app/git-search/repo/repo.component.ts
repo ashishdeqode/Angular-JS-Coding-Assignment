@@ -49,12 +49,7 @@ export class RepoComponent implements OnInit {
     this.repoData = [];
     this.currentPage = 1;
     this.totalRecords = 0;
-    console.log('clear: ', event);
-
-  }
-
-  loadPageData(event: any){
-    console.log('page search: ', event);
+    // console.log('clear: ', event);
 
   }
 
