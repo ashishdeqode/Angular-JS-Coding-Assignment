@@ -6,6 +6,7 @@ import { RepoComponent } from './repo/repo.component';
 import { UserComponent } from './user/user.component';
 import { FormsModule } from '@angular/forms';
 import { ShortNumberPipe } from '../pipes/short-number.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ShortNumberPipe } from '../pipes/short-number.pipe';
   imports: [
     CommonModule,
     GitSearchRoutingModule,
-    FormsModule
+    FormsModule,
+    NgxPaginationModule
   ]
 })
 export class GitSearchModule { }

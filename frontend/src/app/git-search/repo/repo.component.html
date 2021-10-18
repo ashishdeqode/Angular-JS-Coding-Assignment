@@ -3,13 +3,13 @@
     <div class="row mb-5 d-flex justify-content-center">
       <div class="col-6 ">
         <div class="input-group">
-          <input class="form-control" (keyup.enter)="searchRepo()" (click)="clearSearch()" [(ngModel)]="searchText"
+          <input class="form-control" (keyup.enter)="searchRepo()" (search)="clearSearch($event)" [(ngModel)]="searchText"
             type="search" name="" id="" placeholder="Search repo">
           <button class="btn btn-dark input-group-append" (click)="searchRepo()">Search</button>
         </div>
       </div>
     </div>
-    <div class="row" *ngFor="let repo of repoData">
+    <div class="row" *ngFor="let repo of repoData | paginate: { itemsPerPage: perPageLimit, currentPage: currentPage, totalItems: totalRecords }">
       <div class="col-1 d-flex justify-content-end p-0"> <i class="fab fa-git-alt text-secondary"></i> </div>
       <div class="col-11">
         <a class="text-decoration-none" [href]="repo.html_url" target="_blank">
@@ -28,6 +28,11 @@
         <hr>
       </div>
     </div>
+    <div class="row" *ngIf="!loading && repoData.length">
+      <div class="col-12">
+        <pagination-controls (pageChange)="currentPage = $event; searchRepo();"></pagination-controls>
+      </div>
+    </div>
     <div *ngIf="loading" class="row">
       <div class="col-12 mt-5 d-flex justify-content-center">
         <i class="fas fa-spinner fa-3x fa-spin"></i>
@@ -35,10 +40,10 @@
     </div>
     <div *ngIf="!loading && !repoData.length" class="row">
       <div class="col-12 mt-5 d-flex justify-content-center">
-        <i class="fas fa-search fa-5x text-secondary"></i>
+        <i class="fas fa-search fa-5x" style="color: rgb(221, 221, 221);"></i>
       </div>
       <div class="col-12 mt-2 d-flex justify-content-center">
-        <h4 class="text-secondary">SEARCH</h4>
+        <h4 style="color: rgb(221, 221, 221);">SEARCH</h4>
       </div>
     </div>
   </div>

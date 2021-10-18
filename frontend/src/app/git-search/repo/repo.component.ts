@@ -13,6 +13,8 @@ export class RepoComponent implements OnInit {
   searchText: any;
   currentPage: any = 1;
   perPageLimit: any = 10;
+  totalRecords: any = 0;
+  p: any = 1;
 
   repoData: any = [];
 
@@ -32,7 +34,9 @@ export class RepoComponent implements OnInit {
       limit: this.perPageLimit
     };
     this.gitService.searchGitRepo(params).subscribe((resp:any)=>{
+      console.log(resp);
       if(resp.statusCode == 200){
+        this.totalRecords = resp.data.total_count;
         this.repoData = resp.data.items;
         console.log(this.repoData);
         this.loading = false;
@@ -40,8 +44,18 @@ export class RepoComponent implements OnInit {
     })
   }
 
-  clearSearch(){
-    this.repoData = []
+  clearSearch(event: any){
+    this.loading = false;
+    this.repoData = [];
+    this.currentPage = 1;
+    this.totalRecords = 0;
+    console.log('clear: ', event);
+
+  }
+
+  loadPageData(event: any){
+    console.log('page search: ', event);
+
   }
 
 }
