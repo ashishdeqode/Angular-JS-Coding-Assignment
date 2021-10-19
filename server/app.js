@@ -7,7 +7,7 @@ const DB = require('./db')
 const swaggerUi = require('swagger-ui-express')
 const SwaggerJsDocs = require('./swagger')
 const path = require('path');
-const api = require('./api')
+const routes = require('./routes')
 
 // initiate express
 const app = express()
@@ -27,7 +27,7 @@ app.get('/', async (req, res, next) => {
 })
 
 //  All API Routes 
-app.use('/api/v1', api);
+app.use('/api', routes);
 
 // Swagger UI setup
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(SwaggerJsDocs));

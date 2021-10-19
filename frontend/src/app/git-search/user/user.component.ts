@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
     this.gitService.searchGitUser(params).subscribe((resp:any)=>{
       console.log(resp);
       if(resp.statusCode == 200){
-        this.totalRecords = resp.data.length;
+        this.totalRecords = resp.total_counts;
         this.userData = resp.data;
         console.log(this.userData);
         this.loading = false;

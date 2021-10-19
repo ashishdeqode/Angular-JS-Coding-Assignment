@@ -21,7 +21,7 @@ const swaggerOptions = {
         Headers: ['Access-Control-Allow-Headers'],
         host: HOST + ':' + PORT
     },
-    apis: process.env.NODE_ENV === 'live' ? ['*/*/*/*/*.js'] : ['./api/v1/*/*.js'],
+    apis: ['./routes/*/*.js'],
     layout: 'AugmentingLayout'
 };
 module.exports = swaggerJsDocs(swaggerOptions);
