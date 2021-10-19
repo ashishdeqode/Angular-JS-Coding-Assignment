@@ -4,6 +4,7 @@ const axios = require("axios");
 require("dotenv").config();
 
 module.exports = {
+  // function to search git repo
   searchRepo: async (req, res, next) => {
     try {
       console.log("Req payload: ", req.query);
@@ -31,6 +32,7 @@ module.exports = {
     }
   },
 
+  // function to search git user
   searchUser: async (req, res, next) => {
     try {
       console.log("Req payload: ", req.query);
@@ -94,6 +96,7 @@ module.exports = {
   },
 };
 
+// fucntion to fetch user profile detail
 async function getUserProfile(url) {
   console.log("url: ", url);
   const headerData = {
