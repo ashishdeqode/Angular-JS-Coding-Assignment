@@ -9,7 +9,7 @@ const routes: Routes = [
   },
   {
     path: 'search',
-    loadChildren: () => import('./git-search/git-search.module').then(m => m.GitSearchModule)
+    loadChildren: () => import('./git-search/git-search.module').then(module => module.GitSearchModule)
   }
 ];
 
