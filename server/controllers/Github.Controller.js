@@ -7,7 +7,6 @@ module.exports = {
   // function to search git repo
   searchRepo: async (req, res, next) => {
     try {
-      console.log("Req payload: ", req.query);
       const searchText = req.query.repo;
       const page = req.query.page || 1;
       const limit = req.query.limit || 10;
@@ -20,11 +19,9 @@ module.exports = {
           { headers: headerData }
         )
         .then(function (response) {
-          // console.log(response.data);
           res.send({ succes: true, statusCode: 200, data: response.data });
         })
         .catch(function (error) {
-          console.log(error);
           res.send({ succes: false, statusCode: 400 });
         });
     } catch (error) {
@@ -35,7 +32,6 @@ module.exports = {
   // function to search git user
   searchUser: async (req, res, next) => {
     try {
-      console.log("Req payload: ", req.query);
       const searchText = req.query.user;
       const page = req.query.page || 1;
       const limit = req.query.limit || 10;
@@ -47,7 +43,6 @@ module.exports = {
       const dbUsers = await GitUser.find({ name: { $regex: searchRegex } }).skip(skip);
 
       if (dbUsers.length > 0) {
-        console.log('<----Searched from DB---->');
         res.send({ succes: true, statusCode: 200, data: dbUsers, total_counts: totalDbUsers});
       } else {
         const headerData = {
@@ -59,34 +54,28 @@ module.exports = {
             { headers: headerData }
           )
           .then(function (response) {
-            searchResult = response.data.items;
-            console.log('Search result: ', response.data);
+            searchResult = response.data.items;       
             let promises = [];
             let users = [];
-            searchResult.forEach((user) => {
-              console.log("urllll---> ", user.url);
+            searchResult.forEach((user) => {  
               promises.push(
-                getUserProfile(user.url).then((result) => {
-                  // console.log('User details: ', result);
+                getUserProfile(user.url).then((result) => {         
                   if(result.name){
                     const regex = new RegExp(searchText, "i");
                     if (result.name.match(regex)) {
                       users.push(result);
                     }
-                  }
-                  // users.push(result)
+                  }    
                 })
               );
             });
 
             return Promise.all(promises).then(() => {
               const saveUsers = GitUser.insertMany(users);
-              // console.log('search result: ', users.length);
               res.send({ succes: true, statusCode: 200, data: users, total_counts: response.data.total_count });
             });
           })
           .catch(function (error) {
-            console.log("Error: ", error);
             res.send({ succes: false, statusCode: 400 });
           });
       }
@@ -98,7 +87,6 @@ module.exports = {
 
 // fucntion to fetch user profile detail
 async function getUserProfile(url) {
-  console.log("url: ", url);
   const headerData = {
     Authorization: `token ${process.env.GIT_TOKEN}`,
   };

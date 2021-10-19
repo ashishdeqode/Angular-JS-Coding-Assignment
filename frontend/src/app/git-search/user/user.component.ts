@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GitService } from 'src/app/services/git.service';
+import { GithubApiService } from 'src/app/services/github-api.service';
 
 @Component({
   selector: 'app-user',
@@ -24,34 +24,37 @@ export class UserComponent {
   userData: any = [];
 
   constructor(
-    private gitService: GitService
+    private gitService: GithubApiService
   ) { }
 
   // to search user
-  searchUser(){
+  searchUser() {
     if (this.searchText.trim().length == 0) {
       return;
     }
+
     this.userData = [];
     this.loading = true;
     this.noDataError = false;
     this.serverError = false;
+
     const params = {
-      search: this.searchText,
+      user: this.searchText,
       page: this.currentPage,
       limit: this.perPageLimit
     };
-    this.gitService.searchGitUser(params).subscribe((resp:any)=>{
-      console.log(resp);
-      if(resp.statusCode == 200){
+
+    this.gitService.searchGitUser(params).subscribe((resp: any) => {
+      if (resp.statusCode == 200) {
         this.totalRecords = resp.total_counts;
         this.userData = resp.data;
-        console.log(this.userData);
         this.loading = false;
+
         if (this.userData.length == 0) {
           this.noDataError = true;
         }
-      }else{
+
+      } else {
         this.loading = false;
         this.serverError = true;
       }
@@ -59,14 +62,13 @@ export class UserComponent {
   }
 
   // to clear search
-  clearSearch(event: any){
+  clearSearch() {
     this.loading = false;
     this.noDataError = false;
     this.serverError = false;
     this.userData = [];
     this.currentPage = 1;
     this.totalRecords = 0;
-    // console.log('clear: ', event);
   }
 
 }

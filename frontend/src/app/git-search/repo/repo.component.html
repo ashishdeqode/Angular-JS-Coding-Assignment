@@ -5,7 +5,7 @@
     <div class="row mb-5 d-flex justify-content-center">
       <div class="col-lg-6 col-sm-12 col-md-12">
         <div class="input-group">
-          <input class="form-control" (keyup.enter)="searchRepo()" (search)="clearSearch($event)" [(ngModel)]="searchText"
+          <input class="form-control" (keyup.enter)="searchRepo()" (search)="clearSearch()" [(ngModel)]="searchText"
             type="search" name="" id="" placeholder="Search repo">
           <button class="btn btn-dark input-group-append" (click)="searchRepo()">Search</button>
         </div>

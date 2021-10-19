@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GitService } from 'src/app/services/git.service';
+import { GithubApiService } from 'src/app/services/github-api.service';
 
 @Component({
   selector: 'app-repo',
@@ -25,7 +25,7 @@ export class RepoComponent {
   repoData: any = [];
 
   constructor(
-    private gitService: GitService
+    private gitService: GithubApiService
   ) { }
 
   // to search repo
@@ -33,21 +33,22 @@ export class RepoComponent {
     if (this.searchText.trim().length == 0) {
       return;
     }
+
     this.repoData = [];
     this.loading = true;
     this.noDataError = false;
     this.serverError = false;
+
     const params = {
-      search: this.searchText,
+      repo: this.searchText,
       page: this.currentPage,
       limit: this.perPageLimit
     };
+
     this.gitService.searchGitRepo(params).subscribe((resp: any) => {
-      console.log(resp);
       if (resp.statusCode == 200) {
         this.totalRecords = resp.data.total_count;
         this.repoData = resp.data.items;
-        // console.log(this.repoData);
         this.loading = false;
         if (this.repoData.length == 0) {
           this.noDataError = true;
@@ -60,14 +61,13 @@ export class RepoComponent {
   }
 
   // to clear search
-  clearSearch(event: any) {
+  clearSearch() {
     this.loading = false;
     this.noDataError = false;
     this.serverError = false;
     this.repoData = [];
     this.currentPage = 1;
     this.totalRecords = 0;
-    // console.log('clear: ', event);
   }
 
 }
