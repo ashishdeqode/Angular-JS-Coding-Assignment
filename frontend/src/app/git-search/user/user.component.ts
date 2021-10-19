@@ -21,7 +21,7 @@ export class UserComponent {
   totalRecords: number = 0;
 
   // to store api response data
-  userData: any = [];
+  userData: Array<any> = [];
 
   constructor(
     private gitService: GithubApiService
@@ -46,8 +46,8 @@ export class UserComponent {
 
     this.gitService.searchGitUser(params).subscribe((resp: any) => {
       if (resp.statusCode == 200) {
-        this.totalRecords = resp.total_counts;
-        this.userData = resp.data;
+        this.totalRecords = resp.data.total_counts;
+        this.userData = resp.data.items;
         this.loading = false;
 
         if (this.userData.length == 0) {

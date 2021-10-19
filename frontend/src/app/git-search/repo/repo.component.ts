@@ -22,7 +22,7 @@ export class RepoComponent {
   totalRecords: number = 0;
 
   // to store api response data
-  repoData: any = [];
+  repoData: Array<any> = [];
 
   constructor(
     private gitService: GithubApiService

@@ -19,10 +19,10 @@ module.exports = {
           { headers: headerData }
         )
         .then(function (response) {
-          res.send({ succes: true, statusCode: 200, data: response.data });
+          res.send({statusCode: 200, data: response.data, message: 'Repo fetched' });
         })
         .catch(function (error) {
-          res.send({ succes: false, statusCode: 400 });
+          res.send({statusCode: 400, data: null, message: 'Failed to fetch repos!' });
         });
     } catch (error) {
       next(error);
@@ -43,7 +43,7 @@ module.exports = {
       const dbUsers = await GitUser.find({ name: { $regex: searchRegex } }).skip(skip);
 
       if (dbUsers.length > 0) {
-        res.send({ succes: true, statusCode: 200, data: dbUsers, total_counts: totalDbUsers});
+        res.send({ statusCode: 200, data: { items: dbUsers, total_counts: totalDbUsers }, message: 'Users fetched' });
       } else {
         const headerData = {
           Authorization: `token ${process.env.GIT_TOKEN}`,
@@ -54,29 +54,29 @@ module.exports = {
             { headers: headerData }
           )
           .then(function (response) {
-            searchResult = response.data.items;       
+            searchResult = response.data.items;
             let promises = [];
             let users = [];
-            searchResult.forEach((user) => {  
+            searchResult.forEach((user) => {
               promises.push(
-                getUserProfile(user.url).then((result) => {         
-                  if(result.name){
+                getUserProfile(user.url).then((result) => {
+                  if (result.name) {
                     const regex = new RegExp(searchText, "i");
                     if (result.name.match(regex)) {
                       users.push(result);
                     }
-                  }    
+                  }
                 })
               );
             });
 
             return Promise.all(promises).then(() => {
               const saveUsers = GitUser.insertMany(users);
-              res.send({ succes: true, statusCode: 200, data: users, total_counts: response.data.total_count });
+              res.send({ statusCode: 200, data: { items: users, total_counts: response.data.total_count }, message: 'Users fetched' });
             });
           })
           .catch(function (error) {
-            res.send({ succes: false, statusCode: 400 });
+            res.send({ statusCode: 400, data: null, message: 'Failed to fetch users!' });
           });
       }
     } catch (error) {
