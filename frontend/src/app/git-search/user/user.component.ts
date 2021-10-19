@@ -7,15 +7,20 @@ import { GitService } from 'src/app/services/git.service';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  // to handle error messages
+  loading: boolean = false;
+  noDataError: boolean = false;
+  serverError: boolean = false;
 
-  loading: any = false;
+  // to store search string
+  searchText: string = '';
 
-  searchText: any;
-  currentPage: any = 1;
-  perPageLimit: any = 10;
-  totalRecords: any = 0;
-  p: any = 1;
+  // for pagination
+  currentPage: number = 1;
+  perPageLimit: number = 10;
+  totalRecords: number = 0;
 
+  // to store api response data
   userData: any = [];
 
   constructor(
@@ -25,9 +30,15 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  // to search user
   searchUser(){
+    if (this.searchText.trim().length == 0) {
+      return;
+    }
     this.userData = [];
     this.loading = true;
+    this.noDataError = false;
+    this.serverError = false;
     const params = {
       search: this.searchText,
       page: this.currentPage,
@@ -40,17 +51,25 @@ export class UserComponent implements OnInit {
         this.userData = resp.data;
         console.log(this.userData);
         this.loading = false;
+        if (this.userData.length == 0) {
+          this.noDataError = true;
+        }
+      }else{
+        this.loading = false;
+        this.serverError = true;
       }
     })
   }
 
+  // to clear search
   clearSearch(event: any){
     this.loading = false;
+    this.noDataError = false;
+    this.serverError = false;
     this.userData = [];
     this.currentPage = 1;
     this.totalRecords = 0;
     // console.log('clear: ', event);
-
   }
 
 }

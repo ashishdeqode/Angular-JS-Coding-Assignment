@@ -33,7 +33,7 @@ export class RepoComponent implements OnInit {
 
   // to search repo
   searchRepo() {
-    if (this.searchText.length == 0) {
+    if (this.searchText.trim().length == 0) {
       return;
     }
     this.repoData = [];

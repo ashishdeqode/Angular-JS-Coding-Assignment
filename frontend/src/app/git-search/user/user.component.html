@@ -1,5 +1,7 @@
+<!-- component parent div start -->
 <div class="row">
   <div class="col-12 shadow rounded p-5" style="min-height: 100vh;">
+    <!-- search input div start -->
     <div class="row mb-5 d-flex justify-content-center">
       <div class="col-lg-6 col-sm-12 col-md-12">
         <div class="input-group">
@@ -9,6 +11,9 @@
         </div>
       </div>
     </div>
+    <!-- search input div end -->
+
+    <!-- api response loop div start -->
     <div class="row"
       *ngFor="let user of userData | paginate: { itemsPerPage: perPageLimit, currentPage: currentPage, totalItems: totalRecords }">
       <div class="col-1 d-flex justify-content-end p-0">
@@ -30,17 +35,26 @@
         <hr>
       </div>
     </div>
+    <!-- api response loop div end -->
+
+    <!-- pagination div star -->
     <div class="row" *ngIf="!loading && userData.length">
       <div class="col-12">
         <pagination-controls (pageChange)="currentPage = $event; searchUser();"></pagination-controls>
       </div>
     </div>
+    <!-- pagination div end -->
+
+    <!-- loader div start -->
     <div *ngIf="loading" class="row">
       <div class="col-12 mt-5 d-flex justify-content-center">
         <i class="fas fa-spinner fa-3x fa-spin"></i>
       </div>
     </div>
-    <div *ngIf="!loading && !userData.length" class="row">
+    <!-- loader div end -->
+
+    <!-- search watermark div start -->
+    <div *ngIf="!loading && !userData.length && !noDataError && !serverError" class="row">
       <div class="col-12 mt-5 d-flex justify-content-center">
         <i class="fas fa-user fa-5x" style="color: rgb(221, 221, 221);"></i>
       </div>
@@ -48,5 +62,29 @@
         <h4 style="color: rgb(221, 221, 221);">SEARCH</h4>
       </div>
     </div>
+    <!-- search watermark div end -->
+
+    <!-- No data error message div start -->
+    <div *ngIf="!loading && !userData.length && noDataError && !serverError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-exclamation-circle fa-5x"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 class="text-danger">No user found!</h4>
+      </div>
+    </div>
+    <!-- No data error message div end -->
+
+    <!-- Server error message div start -->
+    <div *ngIf="serverError && !noDataError" class="row">
+      <div class="col-12 mt-5 d-flex justify-content-center">
+        <i class="fas fa-exclamation-circle fa-5x"></i>
+      </div>
+      <div class="col-12 mt-2 d-flex justify-content-center">
+        <h4 class="text-danger">Failed to fetch data!</h4>
+      </div>
+    </div>
+    <!-- Server error message div end -->
   </div>
 </div>
+<!-- component parent div end -->
