@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GitService } from 'src/app/services/git.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { GitService } from 'src/app/services/git.service';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   // to handle error messages
   loading: boolean = false;
   noDataError: boolean = false;
@@ -26,9 +26,6 @@ export class UserComponent implements OnInit {
   constructor(
     private gitService: GitService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   // to search user
   searchUser(){

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GitService } from 'src/app/services/git.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { GitService } from 'src/app/services/git.service';
   templateUrl: './repo.component.html',
   styleUrls: ['./repo.component.scss']
 })
-export class RepoComponent implements OnInit {
+export class RepoComponent {
 
   // to handle error messages
   loading: boolean = false;
@@ -27,9 +27,6 @@ export class RepoComponent implements OnInit {
   constructor(
     private gitService: GitService
   ) { }
-
-  ngOnInit(): void {
-  }
 
   // to search repo
   searchRepo() {
