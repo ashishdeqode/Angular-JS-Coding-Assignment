@@ -8,14 +8,20 @@ import { GitService } from 'src/app/services/git.service';
 })
 export class RepoComponent implements OnInit {
 
-  loading: any = false;
+  // to handle error messages
+  loading: boolean = false;
+  noDataError: boolean = false;
+  serverError: boolean = false;
 
-  searchText: any;
-  currentPage: any = 1;
-  perPageLimit: any = 10;
-  totalRecords: any = 0;
-  p: any = 1;
+  // to store search string
+  searchText: string = '';
 
+  // for pagination
+  currentPage: number = 1;
+  perPageLimit: number = 10;
+  totalRecords: number = 0;
+
+  // to store api response data
   repoData: any = [];
 
   constructor(
@@ -25,32 +31,46 @@ export class RepoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  searchRepo(){
+  // to search repo
+  searchRepo() {
+    if (this.searchText.length == 0) {
+      return;
+    }
     this.repoData = [];
     this.loading = true;
+    this.noDataError = false;
+    this.serverError = false;
     const params = {
       search: this.searchText,
       page: this.currentPage,
       limit: this.perPageLimit
     };
-    this.gitService.searchGitRepo(params).subscribe((resp:any)=>{
+    this.gitService.searchGitRepo(params).subscribe((resp: any) => {
       console.log(resp);
-      if(resp.statusCode == 200){
+      if (resp.statusCode == 200) {
         this.totalRecords = resp.data.total_count;
         this.repoData = resp.data.items;
-        console.log(this.repoData);
+        // console.log(this.repoData);
         this.loading = false;
+        if (this.repoData.length == 0) {
+          this.noDataError = true;
+        }
+      } else {
+        this.loading = false;
+        this.serverError = true;
       }
     })
   }
 
-  clearSearch(event: any){
+  // to clear search
+  clearSearch(event: any) {
     this.loading = false;
+    this.noDataError = false;
+    this.serverError = false;
     this.repoData = [];
     this.currentPage = 1;
     this.totalRecords = 0;
     // console.log('clear: ', event);
-
   }
 
 }
