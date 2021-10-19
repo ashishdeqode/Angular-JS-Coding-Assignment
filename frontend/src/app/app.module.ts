@@ -6,14 +6,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ShortNumberPipe } from './pipes/short-number.pipe';
 import { HomePageComponent } from './home-page/home-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    // ShortNumberPipe
   ],
   imports: [
     BrowserModule,
